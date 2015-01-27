@@ -39,11 +39,11 @@ Un bot est considéré synchronisé lorsque celui ci suppose que toutes les donn
 
 4/ Connexion aux membres
 
-La connexion aux membres se fait de manière sécurisée par l'utilisation du protocole SSL avec certificat, ainsi d'un chiffrement symétrique [REFLECHIR A L'ALGO]. La clé de ce chiffrement symétrique sera différent à chaque session et sera calculé grâce à un échange Diffie Helmann.
-Un membre se connectera à un autre en utilisant les protocole TCP et IP, se qui garantira l'authenticité du membre.
+La connexion aux membres se fait de manière sécurisée par l'utilisation du protocole SSL avec certificat, ainsi d'un chiffrement symétrique [REFLECHIR A L'ALGO]. La clé de ce chiffrement symétrique sera différent à chaque session et sera calculé grâce à un échange Diffie Hellman.
+Un membre se connectera à un autre en utilisant les protocole TCP et IP, ce qui garantira l'authenticité du membre.
 Une fois la session TCP (syn/syn ack/ack) ouverte, le client et le serveur DOIVENT ouvrir une session SSL, et DOIVENT utiliser le Perfect Forward Secrecy.
 Lorsque la session SSL est complète, la négociation du Diffie Helmann DOIT débuter. Une fois la négociation effectuée, les deux membres sont supposés avoir une clé commune.
-Un premier échange entre le client et le serveur DOIT être effectué pour valider le bon fonctionnement du chiffrement. Pour ce faire, le clien DOIT choisir une chaine de texte qu'il chiffrera avec [ALGO DE CHIFFREMENT]. Le serveur DOIT la déchiffrer, opérer à un inversement des caractères de gauche à droite, puis la rechiffrer pour renvoyer la chaine au client.
+Un premier échange entre le client et le serveur DOIT être effectué pour valider le bon fonctionnement du chiffrement. Pour ce faire, le client DOIT choisir une chaine de texte qu'il chiffrera avec [ALGO DE CHIFFREMENT]. Le serveur DOIT la déchiffrer, opérer à un inversement des caractères de gauche à droite, puis la rechiffrer pour renvoyer la chaine au client.
 Si le client recoit sa chaine inversée, la session est considérée comme étant sécurisée et l'échange de donnée PEUT se faire.
 Par exemple, si le client envoie la chaine "test123", le serveur DOIT renvoyer "321tset".
 La chaine de caractère DOIT être différente pour chaque nouvelle session.
