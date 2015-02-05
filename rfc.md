@@ -20,6 +20,8 @@ Pour supprimer un bot du réseau, chaqun des différents propriétaire de bots p
 
 4/ Partage de données d'un bot à tous les autres
 
+Les données envoyées au travers du réseau transitent en clair, mais elles sont signées, ce qui permet d'être sûr qu'elles ne soient pas corrompues et d'en connaitre son expéditeur. Les données dont la signature ne correspond pas DOIVENT ne pas être prises en compte.
+
 Si un bot a besoin de la communauté pour obtenir une information, il en fait la demande a son parent et ses enfants.
 
 Tous les membres propagent la version qu'ils possèdent et le membre demandeur choisit par la suite dans ceux qui possèdent la version la plus à jour, celui qui lui enverra l'information.
@@ -32,3 +34,18 @@ Un membre se connectera à un autre en utilisant les protocole TCP et IP, ce qui
 Une fois la session TCP (syn/syn ack/ack) ouverte, le client et le serveur DOIVENT ouvrir une session SSL, et DOIVENT utiliser le Perfect Forward Secrecy.
 Lorsque la session SSL est complète, [ identification / Cryptage supplémentaire ? ]
 Une fois la session active, celle ci DOIT rester active. Pour cela le serveur DOIT envoyer des requêtes de keep-alive. Celles ci DOIVENT contenir une chaine de caractère aléatoire, et le client DOIT renvoyer en réponse la même chaine de caractère. [ nécessaire pour du keep-alive ? ]
+
+6/ Format des données d'un "message"
+
+Pour pouvoir communiquer entre eux, les bots s'envoient des "messages".
+Ce message contient :
+- L'expéditeur
+- La signature
+- Le contenu du message
+
+Pour ceci, le format suivant est utilisé :
+- id_bot (16 bytes) : md5 de la clé publique du bot concerné
+- signature_length (2 bytes) : longueur (en byte) de la signature du message
+- message_length (3 bytes) : longueur (en byte) du message
+- signature (taille dans signature_length) : signature
+- message (taille dans message_length) : contenu du message
