@@ -34,16 +34,19 @@ Un membre se connectera à un autre en utilisant les protocole TCP et IP, ce qui
 Une fois la session TCP (syn/syn ack/ack) ouverte, le client et le serveur DOIVENT ouvrir une session SSL, et DOIVENT utiliser le Perfect Forward Secrecy.
 Lorsque la session SSL est complète, [ identification / Cryptage supplémentaire ? ]
 Une fois la session active, celle ci DOIT rester active. Pour cela le serveur DOIT envoyer des requêtes de keep-alive. Celles ci DOIVENT contenir une chaine de caractère aléatoire, et le client DOIT renvoyer en réponse la même chaine de caractère. [ nécessaire pour du keep-alive ? ]
+Une fois la session ouverte, l'emetteur DOIT envoyer au destinataire un message permettant d'être identifié dans les 30 secondes. Ce message DOIT contenir la chaine de caractère "auth". Ce message DOIT être reçu par le destinataire qui validera ou non l'emmeteur en vérifiant si la signature est connue. Dans le cas où celle ci n'est pas connue, la connexion est coupée.
 
 6/ Format des données d'un "message"
 
 Pour pouvoir communiquer entre eux, les bots s'envoient des "messages".
 Ce message contient :
+- La version du protocole
 - L'expéditeur
 - La signature
 - Le contenu du message
 
 Pour ceci, le format suivant est utilisé :
+- version_proto (1 byte) : actuellement la version est hardcodée à 1
 - id_bot (16 bytes) : md5 de la clé publique du bot concerné
 - signature_length (2 bytes) : longueur (en byte) de la signature du message
 - message_length (3 bytes) : longueur (en byte) du message
